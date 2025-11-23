@@ -1,4 +1,4 @@
-package com.example.cleanarchitecture_jetpackcompose_mvi.ui.theme
+package com.example.cleanarchitecture_jetpackcompose_mvi.presentation.ui.theme
 
 import android.app.Activity
 import android.os.Build
