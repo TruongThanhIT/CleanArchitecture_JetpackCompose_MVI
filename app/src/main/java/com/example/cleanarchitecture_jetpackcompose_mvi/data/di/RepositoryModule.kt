@@ -1,5 +1,6 @@
 package com.example.cleanarchitecture_jetpackcompose_mvi.data.di
 
+import com.example.cleanarchitecture_jetpackcompose_mvi.data.repository.UserRepositoryImpl
 import com.example.cleanarchitecture_jetpackcompose_mvi.domain.repository.UserRepository
 import dagger.Binds
 import dagger.Module
