@@ -1,13 +1,12 @@
-package com.example.cleanarchitecture_jetpackcompose_mvi.data.di
+package com.example.cleanarchitecture_jetpackcompose_mvi.data.gateway
 
 import com.example.cleanarchitecture_jetpackcompose_mvi.domain.model.User
-import com.example.cleanarchitecture_jetpackcompose_mvi.domain.repository.UserRepository
 import javax.inject.Inject
 
-class UserRepositoryImpl @Inject constructor() : UserRepository {
+class RemoteGatewayImpl @Inject constructor() : RemoteGateway {
     override suspend fun fetchUsers(): List<User> {
         val users = mutableListOf<User>()
-        for(index in 1..10) {
+        for (index in 1..10) {
             val user = User(index.toString(), "User $index", index + 19)
             users.add(user)
         }
