@@ -1,6 +1,7 @@
 package com.example.cleanarchitecture_jetpackcompose_mvi.data.di
 
 import com.example.cleanarchitecture_jetpackcompose_mvi.domain.model.User
+import com.example.cleanarchitecture_jetpackcompose_mvi.domain.model.UserDetail
 import com.example.cleanarchitecture_jetpackcompose_mvi.domain.repository.UserRepository
 import javax.inject.Inject
 
@@ -12,5 +13,9 @@ class UserRepositoryImpl @Inject constructor() : UserRepository {
             users.add(user)
         }
         return users
+    }
+
+    override suspend fun getUserDetail(id: String): UserDetail {
+        return UserDetail("1", "Mia", 19)
     }
 }

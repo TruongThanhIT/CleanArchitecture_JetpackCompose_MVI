@@ -13,6 +13,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -23,6 +24,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -33,7 +35,10 @@ import com.example.cleanarchitecture_jetpackcompose_mvi.presentation.model.Users
 import kotlinx.coroutines.flow.collectLatest
 
 @Composable
-fun UsersScreenRoot(viewModel: UsersScreenViewModel = hiltViewModel()) {
+fun UsersScreenRoot(
+    viewModel: UsersScreenViewModel = hiltViewModel(),
+    onClick: (String) -> Unit
+) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val context = LocalContext.current
     LaunchedEffect(key1 = true) {
@@ -50,12 +55,13 @@ fun UsersScreenRoot(viewModel: UsersScreenViewModel = hiltViewModel()) {
         }
     }
 
-    UsersScreen(uiState = uiState)
+    UsersScreen(uiState = uiState, onClick = onClick)
 }
 
 @Composable
-fun UsersScreen(
-    uiState: UserState
+private fun UsersScreen(
+    uiState: UserState,
+    onClick: (String) -> Unit
 ) {
     if (uiState.isLoading) {
         Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
@@ -72,7 +78,7 @@ fun UsersScreen(
                 .padding(16.dp)
         ) {
             items(uiState.users) { user ->
-                UserItem(user)
+                UserItem(user, onClick = onClick)
                 Spacer(Modifier.height(8.dp))
             }
         }
@@ -80,14 +86,40 @@ fun UsersScreen(
 }
 
 @Composable
-fun UserItem(user: UserUIModel) {
-    Card {
-        Column(modifier = Modifier
-            .background(color = Color.Magenta)
-            .fillMaxWidth()
-            .padding(16.dp)) {
+private fun UserItem(
+    user: UserUIModel,
+    onClick: (String) -> Unit
+) {
+    Card(onClick = {
+        onClick.invoke(user.id)
+    }) {
+        Column(
+            modifier = Modifier
+                .background(color = Color.Magenta)
+                .fillMaxWidth()
+                .padding(16.dp)
+        ) {
             Text(user.name, color = Color.White)
             Text("${user.age}", color = Color.White)
         }
+    }
+}
+
+@Preview
+@Composable
+private fun UsersScreenPreview() {
+    MaterialTheme {
+        UsersScreen(
+            uiState = UserState(
+                users = listOf(
+                    UserUIModel(
+                        id = "1",
+                        name = "Pig Joe",
+                        age = 50
+                    )
+                )
+            ),
+            onClick = {}
+        )
     }
 }
